@@ -1,0 +1,159 @@
+/* ---------------------------------------------------------------------------
+   Design tokens. Components reference ROLES, never these hexes directly.
+   Dark values are selected against the dark surface — not a flip of the light set.
+   Chart series come from the validated dataviz palette (adjacent CVD ΔE ≥ 8).
+   --------------------------------------------------------------------------- */
+
+:root {
+  color-scheme: light;
+
+  /* surfaces */
+  --bg-plane: #f9f9f7;
+  --bg-surface: #fcfcfb;
+  --bg-raised: #ffffff;
+  --bg-subtle: #f0efec;
+
+  /* ink */
+  --ink-primary: #0b0b0b;
+  --ink-secondary: #52514e;
+  --ink-muted: #898781;
+
+  /* chrome */
+  --line: #e1e0d9;
+  --line-strong: #c3c2b7;
+  --ring: rgba(42, 120, 214, 0.45);
+
+  /* accent — the single action color */
+  --accent: #2a78d6;
+  --accent-hover: #256abf;
+  --accent-on: #ffffff;
+  --accent-wash: rgba(42, 120, 214, 0.1);
+
+  /* status — reserved, never reused as a series */
+  --good: #0ca30c;
+  --warn: #fab219;
+  --bad: #d03b3b;
+  --good-ink: #006300;
+  --warn-ink: #8a5a00;
+  --bad-ink: #b32626;
+  --good-wash: rgba(12, 163, 12, 0.12);
+  --warn-wash: rgba(250, 178, 25, 0.16);
+  --bad-wash: rgba(208, 59, 59, 0.12);
+
+  /* categorical series — fixed order, bound to entity id, never cycled */
+  --series-1: #2a78d6;
+  --series-2: #eb6834;
+  --series-3: #1baf7a;
+  --series-4: #eda100;
+  --series-5: #e87ba4;
+  --series-6: #008300;
+  --series-7: #4a3aa7;
+  --series-8: #e34948;
+  --series-other: #898781;
+
+  /* chart chrome */
+  --grid: #e1e0d9;
+  --axis: #c3c2b7;
+
+  --shadow-1: 0 1px 2px rgba(11, 11, 11, 0.04), 0 2px 8px rgba(11, 11, 11, 0.04);
+  --shadow-2: 0 8px 24px rgba(11, 11, 11, 0.1), 0 2px 6px rgba(11, 11, 11, 0.06);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    color-scheme: dark;
+
+    --bg-plane: #0d0d0d;
+    --bg-surface: #1a1a19;
+    --bg-raised: #232321;
+    --bg-subtle: #242422;
+
+    --ink-primary: #ffffff;
+    --ink-secondary: #c3c2b7;
+    --ink-muted: #898781;
+
+    --line: #2c2c2a;
+    --line-strong: #383835;
+    --ring: rgba(57, 135, 229, 0.55);
+
+    --accent: #3987e5;
+    --accent-hover: #5598e7;
+    --accent-on: #0d0d0d;
+    --accent-wash: rgba(57, 135, 229, 0.16);
+
+    --good: #0ca30c;
+    --warn: #fab219;
+    --bad: #d03b3b;
+    --good-ink: #0ca30c;
+    --warn-ink: #fab219;
+    --bad-ink: #e66767;
+    --good-wash: rgba(12, 163, 12, 0.16);
+    --warn-wash: rgba(250, 178, 25, 0.16);
+    --bad-wash: rgba(208, 59, 59, 0.18);
+
+    --series-1: #3987e5;
+    --series-2: #d95926;
+    --series-3: #199e70;
+    --series-4: #c98500;
+    --series-5: #d55181;
+    --series-6: #008300;
+    --series-7: #9085e9;
+    --series-8: #e66767;
+    --series-other: #898781;
+
+    --grid: #2c2c2a;
+    --axis: #383835;
+
+    --shadow-1: 0 1px 2px rgba(0, 0, 0, 0.4), 0 2px 8px rgba(0, 0, 0, 0.3);
+    --shadow-2: 0 8px 24px rgba(0, 0, 0, 0.55), 0 2px 6px rgba(0, 0, 0, 0.4);
+  }
+}
+
+/* The explicit toggle wins over the OS setting, both directions. */
+:root[data-theme='dark'] {
+  color-scheme: dark;
+
+  --bg-plane: #0d0d0d;
+  --bg-surface: #1a1a19;
+  --bg-raised: #232321;
+  --bg-subtle: #242422;
+
+  --ink-primary: #ffffff;
+  --ink-secondary: #c3c2b7;
+  --ink-muted: #898781;
+
+  --line: #2c2c2a;
+  --line-strong: #383835;
+  --ring: rgba(57, 135, 229, 0.55);
+
+  --accent: #3987e5;
+  --accent-hover: #5598e7;
+  --accent-on: #0d0d0d;
+  --accent-wash: rgba(57, 135, 229, 0.16);
+
+  --good: #0ca30c;
+  --warn: #fab219;
+  --bad: #d03b3b;
+  --good-ink: #0ca30c;
+  --warn-ink: #fab219;
+  --bad-ink: #e66767;
+  --good-wash: rgba(12, 163, 12, 0.16);
+  --warn-wash: rgba(250, 178, 25, 0.16);
+  --bad-wash: rgba(208, 59, 59, 0.18);
+
+  --series-1: #3987e5;
+  --series-2: #d95926;
+  --series-3: #199e70;
+  --series-4: #c98500;
+  --series-5: #d55181;
+  --series-6: #008300;
+  --series-7: #9085e9;
+  --series-8: #e66767;
+  --series-other: #898781;
+
+  --grid: #2c2c2a;
+  --axis: #383835;
+
+  --shadow-1: 0 1px 2px rgba(0, 0, 0, 0.4), 0 2px 8px rgba(0, 0, 0, 0.3);
+  --shadow-2: 0 8px 24px rgba(0, 0, 0, 0.55), 0 2px 6px rgba(0, 0, 0, 0.4);
+}
