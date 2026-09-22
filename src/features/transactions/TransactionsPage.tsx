@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import type { Transaction } from '@/types';
 import { useStore } from '@/store/useStore';
 import { CATEGORIES, categoryLabel } from '@/lib/categories';
@@ -41,12 +41,19 @@ export function TransactionsPage({
   const [pendingDelete, setPendingDelete] = useState<Transaction | null>(null);
 
   // A category clicked on the dashboard pre-filters this screen exactly once.
+  // The callback is an inline arrow from the parent, so it is held in a ref rather
+  // than listed as a dependency — same reason as in Dialog: a changing identity
+  // would re-run this on every parent render.
+  const consumeRef = useRef(onConsumeInitialCategory);
+  useEffect(() => {
+    consumeRef.current = onConsumeInitialCategory;
+  });
   useEffect(() => {
     if (!initialCategory) return;
     setCategoryFilter(initialCategory);
     setTypeFilter('expense');
-    onConsumeInitialCategory();
-  }, [initialCategory, onConsumeInitialCategory]);
+    consumeRef.current();
+  }, [initialCategory]);
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
