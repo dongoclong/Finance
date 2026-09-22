@@ -1,13 +1,15 @@
 name: Deploy to GitHub Pages
 
-# Manual trigger only, on purpose: GitHub Pages needs the repo to be public
-# (or a paid plan) AND Settings → Pages → Source set to "GitHub Actions".
-# Until that is done an automatic run would just fail on every push.
-# Once Pages is enabled, swap `workflow_dispatch` for the `push` block below.
+# Deploys on every push to main.
+#
+# Requires two things to be true on github.com, or the job fails with
+# "Get Pages site failed":
+#   1. The repo is Public  (Pages on a private repo needs GitHub Pro)
+#   2. Settings → Pages → Source = "GitHub Actions"
 on:
+  push:
+    branches: [main]
   workflow_dispatch:
-  # push:
-  #   branches: [main]
 
 permissions:
   contents: read

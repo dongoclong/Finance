@@ -46,16 +46,23 @@ Yêu cầu Node 20+.
 
 **CI (`.github/workflows/ci.yml`)** — chạy tự động mỗi lần push: typecheck, build, báo dung lượng bundle vào phần Summary của workflow, và lưu `dist/` làm artifact tải về được. Chạy được cả khi repo để private, không cần cấu hình gì thêm.
 
-**GitHub Pages (`.github/workflows/deploy-pages.yml`)** — đang để **chạy tay** (`workflow_dispatch`). Lý do: Pages yêu cầu repo **public** (hoặc tài khoản trả phí), nên nếu bật tự động ngay thì nó sẽ đỏ ở mọi lần push. Muốn dùng:
+**GitHub Pages (`.github/workflows/deploy-pages.yml`)** — chạy **tự động mỗi lần push lên `main`**. Để nó chạy được, repo cần đúng hai thứ trên github.com:
 
-1. Settings → General → đổi repo sang **Public** (hoặc dùng GitHub Pro).
-2. Settings → Pages → **Source: GitHub Actions**.
-3. Tab Actions → *Deploy to GitHub Pages* → **Run workflow**.
-4. Chạy ổn rồi thì mở file workflow, bỏ comment khối `push:` để nó tự deploy mỗi lần push.
+1. Settings → General → cuối trang → **Change visibility → Public**
+   (Pages trên repo private yêu cầu GitHub Pro.)
+2. Settings → Pages → **Source: GitHub Actions**
+
+Thiếu một trong hai thì job dừng ở bước `configure-pages` với lỗi *"Get Pages site failed"*.
+
+Repo này **không chứa khoá hay bí mật nào** — không backend, không API key, dữ liệu người dùng nằm trong trình duyệt của chính họ — nên để public không làm lộ gì ngoài mã nguồn.
 
 Site sẽ ở `https://dongoclong.github.io/Finance/`. Đường dẫn asset do biến `GITHUB_PAGES` trong `vite.config.ts` xử lý — deploy lên domain gốc (Vercel, Netlify, server riêng) thì không cần đặt biến này, `base` tự về `/`.
 
-**Không muốn dùng Actions?** `npm run build` rồi đem nguyên thư mục `dist/` đặt lên bất kỳ static host nào. Không có bước server nào cả.
+**Muốn giữ repo private?** Vercel và Netlify đều deploy repo private ở gói miễn phí — nối repo qua web UI của họ, không cần file workflow nào, và `base` tự về `/` vì chúng phục vụ ở domain gốc.
+
+**Không muốn dùng hosting nào?** `npm run build` rồi đem nguyên thư mục `dist/` đặt lên bất kỳ static host nào. Không có bước server nào cả. Hoặc `npm run dev:lan` để mở từ điện thoại trong cùng mạng WiFi.
+
+> **Lưu ý về dữ liệu:** mỗi trình duyệt có kho dữ liệu riêng. Mở trên điện thoại sẽ là một bộ dữ liệu trắng, không phải dữ liệu trên máy tính. Muốn mang theo thì Cài đặt → *Xuất tệp sao lưu* ở máy này, rồi *Nhập từ tệp* ở máy kia.
 
 ## Cấu trúc
 
