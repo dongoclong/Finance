@@ -46,13 +46,9 @@ Yêu cầu Node 20+.
 
 **CI (`.github/workflows/ci.yml`)** — chạy tự động mỗi lần push: typecheck, build, báo dung lượng bundle vào phần Summary của workflow, và lưu `dist/` làm artifact tải về được. Chạy được cả khi repo để private, không cần cấu hình gì thêm.
 
-**GitHub Pages (`.github/workflows/deploy-pages.yml`)** — chạy **tự động mỗi lần push lên `main`**. Để nó chạy được, repo cần đúng hai thứ trên github.com:
+**GitHub Pages (`.github/workflows/deploy-pages.yml`)** — chạy **tự động mỗi lần push lên `main`**, deploy tới `https://dongoclong.github.io/Finance/`.
 
-1. Settings → General → cuối trang → **Change visibility → Public**
-   (Pages trên repo private yêu cầu GitHub Pro.)
-2. Settings → Pages → **Source: GitHub Actions**
-
-Thiếu một trong hai thì job dừng ở bước `configure-pages` với lỗi *"Get Pages site failed"*.
+Điều kiện duy nhất: repo phải **Public** (Pages trên repo private yêu cầu GitHub Pro). Phần còn lại workflow tự lo — `configure-pages` dùng `enablement: true` nên tự bật Pages nếu chưa bật, không cần ai vào Settings bấm trước.
 
 Repo này **không chứa khoá hay bí mật nào** — không backend, không API key, dữ liệu người dùng nằm trong trình duyệt của chính họ — nên để public không làm lộ gì ngoài mã nguồn.
 

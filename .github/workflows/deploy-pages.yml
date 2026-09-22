@@ -2,10 +2,8 @@ name: Deploy to GitHub Pages
 
 # Deploys on every push to main.
 #
-# Requires two things to be true on github.com, or the job fails with
-# "Get Pages site failed":
-#   1. The repo is Public  (Pages on a private repo needs GitHub Pro)
-#   2. Settings → Pages → Source = "GitHub Actions"
+# The repo must be Public — Pages on a private repo needs GitHub Pro. Beyond that
+# the job is self-sufficient: configure-pages enables Pages itself if needed.
 on:
   push:
     branches: [main]
@@ -41,7 +39,12 @@ jobs:
       - name: SPA fallback
         run: cp dist/index.html dist/404.html
 
+      # `enablement: true` turns Pages on via the API if it is not already, so the
+      # job no longer depends on someone having clicked the setting first — which is
+      # exactly how run #1 failed.
       - uses: actions/configure-pages@v5
+        with:
+          enablement: true
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist
