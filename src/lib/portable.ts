@@ -1,4 +1,4 @@
-import type { AppData, Transaction } from '@/types';
+import type { AppData, Debt, DebtPayment, Transaction } from '@/types';
 import { DATA_VERSION } from './seed';
 
 export interface ImportReport {
@@ -97,8 +97,61 @@ export function parseImport(text: string): ImportReport {
       }))
     : [];
 
+  const debts: Debt[] = Array.isArray(raw.debts)
+    ? raw.debts.filter(isObj).flatMap((d, i) => {
+        const kind = d.kind === 'lent' ? ('lent' as const) : ('borrowed' as const);
+        const principal = int(d.principal);
+        if (principal <= 0) {
+          rejected.push(`Khoản nợ ${i + 1}: số tiền gốc phải lớn hơn 0.`);
+          return [];
+        }
+        return [
+          {
+            id: str(d.id, `debt_import_${i}`),
+            name: str(d.name, 'Khoản nợ'),
+            kind,
+            counterparty: str(d.counterparty),
+            principal,
+            annualRate: typeof d.annualRate === 'number' && d.annualRate >= 0 ? d.annualRate : 0,
+            minPayment: int(d.minPayment),
+            startDate: /^\d{4}-\d{2}-\d{2}$/.test(str(d.startDate))
+              ? str(d.startDate)
+              : new Date().toISOString().slice(0, 10),
+            dueDate: typeof d.dueDate === 'string' ? d.dueDate : undefined,
+            note: typeof d.note === 'string' ? d.note : undefined,
+          },
+        ];
+      })
+    : [];
+  const debtIds = new Set(debts.map((d) => d.id));
+
+  const debtPayments: DebtPayment[] = Array.isArray(raw.debtPayments)
+    ? raw.debtPayments.filter(isObj).flatMap((p, i) => {
+        if (!debtIds.has(str(p.debtId))) {
+          rejected.push(`Lần trả nợ ${i + 1}: khoản nợ tương ứng không tồn tại.`);
+          return [];
+        }
+        const amount = int(p.amount);
+        if (amount <= 0) {
+          rejected.push(`Lần trả nợ ${i + 1}: số tiền phải lớn hơn 0.`);
+          return [];
+        }
+        return [
+          {
+            id: str(p.id, `dp_import_${i}`),
+            debtId: str(p.debtId),
+            date: str(p.date),
+            amount,
+            note: str(p.note),
+            txId: typeof p.txId === 'string' ? p.txId : undefined,
+            createdAt: typeof p.createdAt === 'number' ? p.createdAt : Date.now(),
+          },
+        ];
+      })
+    : [];
+
   return {
-    data: { version: DATA_VERSION, accounts, transactions, budgets, goals },
+    data: { version: DATA_VERSION, accounts, transactions, budgets, goals, debts, debtPayments },
     accepted: transactions.length,
     rejected,
   };

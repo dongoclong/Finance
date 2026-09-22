@@ -76,7 +76,6 @@ export function DashboardPage({ onOpenCategory, onGoTo }: DashboardPageProps) {
           accent="var(--accent)"
           hero
           trend={trend.map((t) => t.net)}
-          delta={null}
         />
         <StatTile
           label={`Thu nhập ${monthLabel(month).toLowerCase()}`}

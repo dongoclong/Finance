@@ -61,6 +61,39 @@ export interface Goal {
   note?: string;
 }
 
+/** `borrowed` = mình đang nợ người ta. `lent` = mình cho vay, người ta nợ mình. */
+export type DebtKind = 'borrowed' | 'lent';
+
+export interface Debt {
+  id: string;
+  name: string;
+  kind: DebtKind;
+  /** chủ nợ, hoặc người vay của mình */
+  counterparty: string;
+  /** dư nợ tại `startDate` — KHÔNG phải tổng đã vay từ đầu */
+  principal: Money;
+  /** lãi suất %/năm; 0 với khoản vay không lãi */
+  annualRate: number;
+  /** khoản phải trả tối thiểu mỗi tháng; 0 nếu không ràng buộc */
+  minPayment: Money;
+  startDate: ISODate;
+  dueDate?: ISODate;
+  note?: string;
+}
+
+export interface DebtPayment {
+  id: string;
+  debtId: string;
+  date: ISODate;
+  amount: Money;
+  note: string;
+  /** giao dịch tương ứng, nếu lần trả này được ghi luôn vào sổ thu chi */
+  txId?: string;
+  createdAt: number;
+}
+
+export type PayoffStrategy = 'avalanche' | 'snowball';
+
 export type Theme = 'light' | 'dark' | 'system';
 
 export interface AppData {
@@ -69,4 +102,6 @@ export interface AppData {
   transactions: Transaction[];
   budgets: Budget[];
   goals: Goal[];
+  debts: Debt[];
+  debtPayments: DebtPayment[];
 }

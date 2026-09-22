@@ -29,6 +29,10 @@ export function monthLabel(key: MonthKey): string {
 
 export const shortMonthLabel = (key: MonthKey): string => `T${monthStart(key).getMonth() + 1}`;
 
+/** `2028-09` → `T9/28` — for axes that span more than one year. */
+export const monthYearLabel = (key: MonthKey): string =>
+  `T${monthStart(key).getMonth() + 1}/${key.slice(2, 4)}`;
+
 export function isInMonth(date: ISODate, key: MonthKey): boolean {
   return date.startsWith(key);
 }

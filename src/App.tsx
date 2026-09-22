@@ -6,6 +6,7 @@ import { DashboardPage } from '@/features/dashboard/DashboardPage';
 import { TransactionsPage } from '@/features/transactions/TransactionsPage';
 import { BudgetsPage } from '@/features/budgets/BudgetsPage';
 import { GoalsPage } from '@/features/goals/GoalsPage';
+import { DebtsPage } from '@/features/debts/DebtsPage';
 import { SettingsPage } from '@/features/settings/SettingsPage';
 import { Welcome } from '@/features/Welcome';
 
@@ -45,6 +46,7 @@ export function App() {
           )}
           {view === 'budgets' && <BudgetsPage />}
           {view === 'goals' && <GoalsPage />}
+          {view === 'debts' && <DebtsPage />}
           {view === 'settings' && <SettingsPage />}
         </AppShell>
       )}

@@ -1,4 +1,4 @@
-import type { Account, AppData, Budget, Goal, Transaction } from '@/types';
+import type { Account, AppData, Budget, Debt, DebtPayment, Goal, Money, Transaction } from '@/types';
 import { currentMonthKey, daysInMonthOf, elapsedDaysIn, monthStart, shiftMonth, toISODate } from './period';
 
 export const DATA_VERSION = 1;
@@ -184,7 +184,76 @@ export function buildSeedData(): AppData {
     },
   ];
 
-  return { version: DATA_VERSION, accounts: ACCOUNTS, transactions, budgets, goals };
+  // A realistic mix: one big low-rate loan, one painful credit card, one 0%
+  // family loan, plus money lent to a friend. Enough shape that avalanche and
+  // snowball actually disagree.
+  const debts: Debt[] = [
+    {
+      id: 'debt_car',
+      name: 'Vay mua xe',
+      kind: 'borrowed',
+      counterparty: 'Techcombank',
+      principal: 180_000_000,
+      annualRate: 10.5,
+      minPayment: 4_500_000,
+      startDate: toISODate(new Date(new Date().getFullYear() - 1, 2, 10)),
+      dueDate: toISODate(new Date(new Date().getFullYear() + 3, 2, 10)),
+    },
+    {
+      id: 'debt_card',
+      name: 'Dư nợ thẻ tín dụng',
+      kind: 'borrowed',
+      counterparty: 'VIB',
+      principal: 24_000_000,
+      annualRate: 28,
+      minPayment: 1_200_000,
+      startDate: toISODate(new Date(new Date().getFullYear(), new Date().getMonth() - 4, 1)),
+    },
+    {
+      id: 'debt_family',
+      name: 'Mượn bố mẹ sửa nhà',
+      kind: 'borrowed',
+      counterparty: 'Bố mẹ',
+      principal: 40_000_000,
+      annualRate: 0,
+      minPayment: 2_000_000,
+      startDate: toISODate(new Date(new Date().getFullYear(), new Date().getMonth() - 8, 15)),
+      note: 'Không lãi, trả dần khi nào có',
+    },
+    {
+      id: 'debt_friend',
+      name: 'Cho Minh mượn',
+      kind: 'lent',
+      counterparty: 'Minh',
+      principal: 15_000_000,
+      annualRate: 0,
+      minPayment: 0,
+      startDate: toISODate(new Date(new Date().getFullYear(), new Date().getMonth() - 3, 20)),
+      dueDate: toISODate(new Date(new Date().getFullYear(), new Date().getMonth() + 2, 20)),
+    },
+  ];
+
+  const debtPayments: DebtPayment[] = [];
+  let dp = 0;
+  const addPayment = (debtId: string, monthsAgo: number, amount: Money, note: string) => {
+    const d = new Date();
+    debtPayments.push({
+      id: id('dp', dp),
+      debtId,
+      date: toISODate(new Date(d.getFullYear(), d.getMonth() - monthsAgo, 10)),
+      amount,
+      note,
+      createdAt: Date.now() - dp * 1000,
+    });
+    dp += 1;
+  };
+  for (let i = 5; i >= 1; i--) addPayment('debt_car', i, 4_500_000, 'Trả góp hằng tháng');
+  for (let i = 3; i >= 1; i--) addPayment('debt_card', i, 1_500_000, 'Thanh toán thẻ');
+  addPayment('debt_family', 4, 5_000_000, 'Trả bớt');
+  addPayment('debt_family', 1, 5_000_000, 'Trả bớt');
+  addPayment('debt_friend', 1, 5_000_000, 'Minh trả đợt 1');
+
+  return { version: DATA_VERSION, accounts: ACCOUNTS, transactions, budgets, goals, debts, debtPayments };
 }
 
 export const emptyData = (): AppData => ({
@@ -193,4 +262,6 @@ export const emptyData = (): AppData => ({
   transactions: [],
   budgets: [],
   goals: [],
+  debts: [],
+  debtPayments: [],
 });

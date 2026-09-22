@@ -12,6 +12,7 @@
 | **Giao dịch** | Thêm/sửa/xoá, tìm kiếm, lọc theo loại và danh mục, nhóm theo ngày |
 | **Ngân sách** | Hạn mức theo danh mục cho từng tháng, cảnh báo **theo tốc độ chi**, sao chép từ tháng trước |
 | **Mục tiêu** | Tiến độ tiết kiệm, tính ra số tiền cần để dành mỗi tháng để kịp hạn |
+| **Khoản nợ** | Theo dõi khoản đi vay lẫn cho vay, và **lập kế hoạch trả nợ**: mô phỏng từng tháng, so sánh hai chiến lược trả, đưa ra ngày hết nợ và tổng tiền lãi |
 | **Cài đặt** | Tài khoản/ví, khoản định kỳ phát hiện tự động, giao diện sáng/tối, xuất–nhập–xoá dữ liệu |
 
 Vài thứ không hiển nhiên:
@@ -19,6 +20,8 @@ Vài thứ không hiển nhiên:
 - **Ngân sách cảnh báo theo tốc độ, không chỉ theo thanh tiến độ.** Chi 60% hạn mức vào ngày 5 là vấn đề, dù thanh bar trông vẫn yên ả. Vạch mờ trên thanh là mức **dự kiến cuối tháng**.
 - **Nhận định đều giải thích được.** Mỗi dòng nêu một con số và mốc so sánh để bạn tự kiểm chứng bằng tay — không có hộp đen. So sánh giữa hai tháng luôn dùng **cùng số ngày đã trôi qua**, nếu không thì ngày 3 hằng tháng lúc nào cũng trông như một chiến thắng.
 - **Khoản định kỳ nhận diện bằng *hình dạng*, không bằng từ khoá.** Ba lần trở lên, cùng ghi chú và danh mục, số tiền lệch dưới 5%, khoảng cách 25–35 ngày (±4). Nhờ vậy nó tìm ra tiền thuê nhà, Netflix, Internet mà không cần danh sách tên dịch vụ.
+- **Kế hoạch trả nợ mô phỏng thật, không phải chia trung bình.** Mỗi tháng: cộng lãi lên dư nợ, trả tối thiểu cho mọi khoản, rồi dồn toàn bộ phần dư vào **một** khoản. So sánh hai thứ tự ưu tiên — trả lãi cao trước (rẻ nhất về tổng tiền) và trả món nhỏ trước (hết từng món nhanh hơn, dễ giữ động lực) — và nói thẳng chênh lệch là bao nhiêu tiền. Nếu số bạn trả không vượt nổi tiền lãi, nó nói luôn là "với mức này thì không bao giờ hết nợ" thay vì vẽ một biểu đồ đẹp.
+- **Dư nợ = gốc ban đầu − đã trả.** Lãi không bị cộng ngược vào số dư, nên con số trên màn hình luôn tự kiểm chứng được bằng tay; chi phí lãi xuất hiện đúng chỗ nó có tác dụng, tức là trong phần kế hoạch.
 - **Nhập tiền kiểu người thật:** `250k`, `1,5tr`, `1.250.000` đều hiểu, và hiện lại số đã hiểu ngay bên dưới ô nhập.
 - **Nhập dữ liệu báo rõ dòng nào bị loại** thay vì âm thầm bỏ qua.
 

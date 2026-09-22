@@ -6,13 +6,14 @@ import { Button, IconButton } from '@/components/ui/Button';
 import { MonthPicker } from '@/components/ui/MonthPicker';
 import { TransactionDialog } from '@/features/transactions/TransactionDialog';
 
-export type View = 'dashboard' | 'transactions' | 'budgets' | 'goals' | 'settings';
+export type View = 'dashboard' | 'transactions' | 'budgets' | 'goals' | 'debts' | 'settings';
 
 const NAV: { view: View; label: string; icon: string }[] = [
   { view: 'dashboard', label: 'Tổng quan', icon: 'layout-dashboard' },
   { view: 'transactions', label: 'Giao dịch', icon: 'list' },
   { view: 'budgets', label: 'Ngân sách', icon: 'target' },
   { view: 'goals', label: 'Mục tiêu', icon: 'piggy-bank' },
+  { view: 'debts', label: 'Khoản nợ', icon: 'landmark' },
   { view: 'settings', label: 'Cài đặt', icon: 'settings' },
 ];
 
@@ -131,7 +132,7 @@ export function AppShell({ view, onViewChange, children }: AppShellProps) {
         aria-label="Điều hướng chính"
         className="fixed inset-x-0 bottom-0 z-30 border-t border-[var(--line)] bg-[var(--bg-surface)] pb-[env(safe-area-inset-bottom)] lg:hidden"
       >
-        <ul className="mx-auto flex max-w-[560px]">
+        <ul className="mx-auto flex max-w-[600px]">
           {NAV.map((item) => (
             <li key={item.view} className="flex-1">
               <button
@@ -139,7 +140,8 @@ export function AppShell({ view, onViewChange, children }: AppShellProps) {
                 aria-current={view === item.view ? 'page' : undefined}
                 onClick={() => onViewChange(item.view)}
                 className={cn(
-                  'flex h-14 w-full flex-col items-center justify-center gap-0.5 text-[11px] font-medium',
+                  'flex h-14 w-full flex-col items-center justify-center gap-0.5 px-0.5 text-[11px] font-medium',
+                  'whitespace-nowrap',
                   'transition-colors duration-[120ms]',
                   view === item.view ? 'text-[var(--accent)]' : 'text-[var(--ink-muted)]'
                 )}

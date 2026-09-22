@@ -6,7 +6,11 @@ import { Sparkline } from './Sparkline';
 interface StatTileProps {
   label: string;
   value: number;
-  /** signed percent vs the named period; omitted when there is no baseline */
+  /**
+   * Signed percent vs the named period.
+   * `null` = there is a comparison to make but no baseline yet (shows a note).
+   * omitted = this figure has no period comparison at all (shows nothing).
+   */
   delta?: number | null;
   deltaPeriod?: string;
   /** whether an increase is a good thing — spending up is not */
@@ -59,6 +63,7 @@ export function StatTile({
         {display ?? formatCompact(value)}
       </p>
 
+      {(hasDelta || delta === null || (trend && trend.length > 1)) && (
       <div className="mt-2 flex items-end justify-between gap-3">
         {hasDelta ? (
           <span
@@ -78,14 +83,17 @@ export function StatTile({
             </span>
             <span className="font-normal text-[var(--ink-muted)]">so với {deltaPeriod}</span>
           </span>
-        ) : (
+        ) : delta === null ? (
           <span className="text-[13px] text-[var(--ink-muted)]">Chưa có kỳ trước để so sánh</span>
+        ) : (
+          <span />
         )}
 
         {trend && trend.length > 1 && (
           <Sparkline values={trend} accent={accent} className="shrink-0" />
         )}
       </div>
+      )}
     </div>
   );
 }

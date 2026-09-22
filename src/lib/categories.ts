@@ -12,8 +12,9 @@ export const CATEGORIES: Category[] = [
   { id: 'housing', label: 'Nhà ở', kind: 'expense', icon: 'home', slot: 3 },
   { id: 'utilities', label: 'Hoá đơn', kind: 'expense', icon: 'zap', slot: 4 },
   { id: 'shopping', label: 'Mua sắm', kind: 'expense', icon: 'shopping-bag', slot: 5 },
-  { id: 'health', label: 'Sức khoẻ', kind: 'expense', icon: 'heart-pulse', slot: 7 },
-  { id: 'education', label: 'Học tập', kind: 'expense', icon: 'graduation-cap', slot: 8 },
+  { id: 'health', label: 'Sức khoẻ', kind: 'expense', icon: 'heart-pulse', slot: 8 },
+  { id: 'debt', label: 'Trả nợ', kind: 'expense', icon: 'landmark', slot: 7 },
+  { id: 'education', label: 'Học tập', kind: 'expense', icon: 'graduation-cap', slot: null },
   { id: 'entertainment', label: 'Giải trí', kind: 'expense', icon: 'clapperboard', slot: 6 },
   { id: 'other', label: 'Khác', kind: 'expense', icon: 'circle-dashed', slot: null },
 
@@ -21,6 +22,7 @@ export const CATEGORIES: Category[] = [
   { id: 'bonus', label: 'Thưởng', kind: 'income', icon: 'gift', slot: 3 },
   { id: 'investment', label: 'Đầu tư', kind: 'income', icon: 'trending-up', slot: 1 },
   { id: 'freelance', label: 'Làm thêm', kind: 'income', icon: 'laptop', slot: 4 },
+  { id: 'debt_collect', label: 'Thu nợ', kind: 'income', icon: 'landmark', slot: 2 },
   { id: 'other_income', label: 'Thu khác', kind: 'income', icon: 'circle-dashed', slot: null },
 ];
 
